@@ -9,6 +9,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { FaPersonWalkingArrowRight } from "react-icons/fa6";
+import BookingModal from "./Bookingmodal";
 
 /* ─────────────── PALETTE ─────────────── */
 const C = {
@@ -113,15 +114,12 @@ function CursorGlow() {
   );
 }
 
-/* ══════════════════════════════════════════
-   APP
-══════════════════════════════════════════ */
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const active = useActiveSection();
   const { scrollY } = useScroll();
   const heroImgY = useTransform(scrollY, [0, 700], [0, 120]);
-
+  const [bookingOpen, setBookingOpen] = useState(false);
   useEffect(() => {
     const unsub = scrollY.on("change", (v) => setScrolled(v > 40));
     return unsub;
@@ -143,6 +141,8 @@ export default function App() {
       `}</style>
 
       <CursorGlow />
+
+      <BookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} />
 
       {/* ═══════════════ NAVBAR ═══════════════ */}
       <motion.nav
@@ -225,19 +225,11 @@ export default function App() {
             );
           })}
           <motion.button
-            onClick={() => go("about")}
+            onClick={() => setBookingOpen(true)}
             whileHover={{ background: C.bronze, color: C.white, scale: 1.04, boxShadow: `0 6px 24px ${C.bronze2}50` }}
             whileTap={{ scale: 0.97 }}
-            style={{
-              background: "transparent", border: `1.5px solid ${C.bronze}`,
-              color: C.bronze, padding: "9px 26px",
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "0.67rem", letterSpacing: "0.2em", textTransform: "uppercase",
-              fontWeight: 600, transition: "all 0.3s",
-            }}
-          >
-            Book Now
-          </motion.button>
+            style={{ background: "transparent", border: `1.5px solid ${C.bronze}`, color: C.bronze, padding: "9px 26px", fontFamily: "'DM Sans',sans-serif", fontSize: "0.67rem", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, transition: "all 0.3s" }}
+          >Book Now</motion.button>
         </div>
       </motion.nav>
 
